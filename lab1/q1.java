@@ -1,4 +1,5 @@
 package lab1;
+//Q1 WAP using awt to create a simple button and label.
 import java.awt.*;
 import java.awt.event.*;
 
@@ -18,6 +19,12 @@ public class q1 extends Frame implements ActionListener {
         add(l);
 
         b.addActionListener(this);
+
+        addWindowListener(new WindowAdapter() {
+            public void windowClosing(WindowEvent e) {
+                dispose();
+            }
+        });
 
         setSize(300, 250);
         setLayout(null);
