@@ -1,4 +1,5 @@
 package lab1;
+
 //Q2 WAP using awt to create a simple calculator using Jframe,Jtext and button.
 
 import javax.swing.*;
@@ -7,62 +8,82 @@ import java.awt.event.*;
 
 public class q2 extends JFrame implements ActionListener {
 
-    JTextField t1, t2, result;
-    JButton add, sub, mul, div;
+    JTextField display;
+    double num1;
+    char op;
 
     q2() {
-        setTitle("Simple Calculator");
-        setSize(400, 300);
-        setLayout(new FlowLayout());
+        setTitle("Calculator");
+        setSize(300, 400);
+        setLayout(new BorderLayout());
+        setResizable(false);
 
-        t1 = new JTextField(10);
-        t2 = new JTextField(10);
-        result = new JTextField(10);
-        result.setEditable(false);
+        display = new JTextField();
+        display.setFont(new Font("Arial", Font.BOLD, 25));
+        display.setHorizontalAlignment(JTextField.RIGHT);
+        add(display, BorderLayout.NORTH);
 
-        add = new JButton("+");
-        sub = new JButton("-");
-        mul = new JButton("*");
-        div = new JButton("/");
+        JPanel p = new JPanel();
+        p.setLayout(new GridLayout(5, 4, 5, 5));
 
-        add(new JLabel("Number 1:"));
-        add(t1);
+        String[] buttons = {
+            "C", "/", "*", "-",
+            "7", "8", "9", "+",
+            "4", "5", "6", "=",
+            "1", "2", "3", "0",
+            ".", "", "", ""
+        };
 
-        add(new JLabel("Number 2:"));
-        add(t2);
+        for (String s : buttons) {
+            JButton b = new JButton(s);
+            b.setFont(new Font("Arial", Font.BOLD, 20));
+            b.addActionListener(this);
+            p.add(b);
+        }
 
-        add(add);
-        add(sub);
-        add(mul);
-        add(div);
-
-        add(new JLabel("Result:"));
-        add(result);
-
-        add.addActionListener(this);
-        sub.addActionListener(this);
-        mul.addActionListener(this);
-        div.addActionListener(this);
+        add(p, BorderLayout.CENTER);
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
     }
 
     public void actionPerformed(ActionEvent e) {
-        double a = Double.parseDouble(t1.getText());
-        double b = Double.parseDouble(t2.getText());
-        double r = 0;
 
-        if (e.getSource() == add)
-            r = a + b;
-        else if (e.getSource() == sub)
-            r = a - b;
-        else if (e.getSource() == mul)
-            r = a * b;
-        else if (e.getSource() == div)
-            r = a / b;
+        String s = e.getActionCommand();
 
-        result.setText(String.valueOf(r));
+        if (s.equals("C")) {
+            display.setText("");
+        }
+        else if (s.equals("+") || s.equals("-") || s.equals("*") || s.equals("/")) {
+            num1 = Double.parseDouble(display.getText());
+            op = s.charAt(0);
+            display.setText(num1 + " " + op);
+        }
+        else if (s.equals("=")) {
+            String text = display.getText();
+            double num2 = Double.parseDouble(text.substring(text.lastIndexOf(" ") + 1));
+
+            double result = 0;
+
+            if (op == '+')
+                result = num1 + num2;
+            else if (op == '-')
+                result = num1 - num2;
+            else if (op == '*')
+                result = num1 * num2;
+            else if (op == '/')
+                result = num1 / num2;
+
+            display.setText("" + result);
+        }
+        else {
+            if (display.getText().contains(" " + op)) {
+                display.setText(display.getText() + " " + s);
+            }
+            else {
+                display.setText(display.getText() + s);
+            }
+        }
     }
 
     public static void main(String[] args) {

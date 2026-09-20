@@ -3,6 +3,8 @@ package lab1;
 import java.awt.*;
 import java.awt.event.*;
 
+import javax.swing.JOptionPane;
+
 public class q1 extends Frame implements ActionListener {
 
     Button b;
@@ -33,6 +35,7 @@ public class q1 extends Frame implements ActionListener {
 
     public void actionPerformed(ActionEvent e) {
         l.setText("Button Clicked!");
+        JOptionPane.showMessageDialog(this, "Abhinav popup");
     }
 
     public static void main(String[] args) {
